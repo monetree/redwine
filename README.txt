@@ -1,4 +1,4 @@
-FACE DETECTION API
+FACE DETECTION API - https://red-wine.herokuapp.com/
 
 developed using nodejs(express) with postgres database.
 
