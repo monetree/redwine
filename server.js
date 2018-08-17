@@ -4,7 +4,7 @@ const knex = require('knex');
 const app = express();
 const bcrypt = require('bcrypt-nodejs');
 const cors = require('cors');
-const signin = require('./controllers/signin');
+
 
 app.use(bodyParser.json());
 app.use(cors());
@@ -12,8 +12,10 @@ app.use(cors());
 const db = knex({
   client: 'pg',
   connection: {
-    connectionString : process.env.DATABASE_URL,
-    ssl: true
+    host : '127.0.0.1',
+    user : 'postgres',
+    password : 'Thinkonce',
+    database : 'facerecognition'
   }
 });
 
@@ -93,7 +95,7 @@ app.get('/profile/:id', (req,res) => {
 })
 
 
-app.put('/image', (req, res) => {
+app.put('/imageurl', (req, res) => {
   const { id } = req.body;
   db('users').where('id', '=', id)
   .increment('entries', 1)
@@ -105,10 +107,6 @@ app.put('/image', (req, res) => {
 })
 
 
-
-
-
-
-app.listen(process.env.PORT || 3000, ()=> {
-  console.log(`App is running on port ${process.env.PORT}`);
+app.listen(3000, ()=> {
+  console.log('app is running on port 3000');
 })
