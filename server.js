@@ -5,22 +5,23 @@ const app = express();
 const bcrypt = require('bcrypt-nodejs');
 const cors = require('cors');
 
-
+console.log(process.env.POSTGRES_PASSWORD);
 app.use(bodyParser.json());
 app.use(cors());
 
 const db = knex({
   client: 'pg',
   connection: {
-    host : '127.0.0.1',
-    user : 'postgres',
-    password : 'Thinkonce',
-    database : 'facerecognition'
+    host : process.env.POSTGRES_HOST,
+    user : process.env.POSTGRES_USER,
+    password : process.env.POSTGRES_PASSWORD,
+    database : process.env.POSTGRES_DB
   }
 });
 
+
 app.get('/',(req,res) => {
-  res.send("it is working");
+  res.send("IT IS WORKING");
 })
 
 app.post('/signin', (req, res) => {
@@ -48,6 +49,7 @@ app.post('/signin', (req, res) => {
 
 app.post('/register', (req, res) => {
   const {email, name, password} = req.body;
+  console.log(req.body);
   if(!email || !name || !password) {
     return res.status(400).json('incorrect form submission');
   }
@@ -74,7 +76,7 @@ app.post('/register', (req, res) => {
         .then(trx.commit)
         .catch(trx.rollback)
       })
-  .catch(err => res.status(400).json('unable to register'))
+  // .catch(err => res.status(400).json('unable to register'))
 })
 
 
@@ -107,6 +109,10 @@ app.put('/imageurl', (req, res) => {
 })
 
 
+
+
+
+
 app.listen(3000, ()=> {
-  console.log('app is running on port 3000');
+  console.log('App is running on port 3000');
 })
